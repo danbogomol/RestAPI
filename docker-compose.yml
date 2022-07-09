@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+    database:
+      container_name: database
+      image: redis
+      restart: always
+      volumes:
+        - $PWD/config/redis.conf:/usr/local/etc/redis/redis.conf
+      command: redis-server /usr/local/etc/redis/redis.conf
+      ports:
+        - '6379:6379'
+
+    server:
+      container_name: server
+      build: ./
+      ports:
+        - '9090:9090'
+      depends_on:
+        - database
